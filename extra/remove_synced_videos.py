@@ -7,7 +7,13 @@ from comtypes.hresult import S_OK
 from pathlib import Path
 from win32com.shell import shell
 
-"""Find all synced videos and delete the local copy. """
+""" Finds all synced videos and delete the local copy.
+
+    Running in Windows as there is no linux version
+    for Google Backup and Sync, which is the onyl way
+    at the moment to upload to Google Photos with
+    unlimited storage.
+"""
 
 monitor_dir = r'path:/to/recordings'
 
