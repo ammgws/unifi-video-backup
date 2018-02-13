@@ -38,7 +38,8 @@ set output_path (string join "" $TEMP_DIR "/" $filename)
 
 # Note: can also get the ID from "_id" field.
 set record_id (string match --regex '.*/(.*).json' $json_file)[2]
+set url (string join "" $UNIFI_SERVER_ADDR "/api/2.0/recording/" $record_id "/download?apiKey=" $UNIFI_API_KEY)
 
 # TODO: error handling / retries?
-curl --output $output_path --insecure (string join "" $UNIFI_SERVER_ADDR "/api/2.0/recording/" $record_id "/download?apiKey=" $UNIFI_API_KEY)
+curl --output $output_path --insecure $url
 mv $output_path $BACKUP_DIR/
