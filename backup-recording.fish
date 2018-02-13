@@ -41,5 +41,6 @@ set record_id (string match --regex '.*/(.*).json' $json_file)[2]
 set url (string join "" $UNIFI_SERVER_ADDR "/api/2.0/recording/" $record_id "/download?apiKey=" $UNIFI_API_KEY)
 
 # TODO: error handling / retries?
+# TODO: silence curl or make output nicer for journalctl
 curl --output $output_path --insecure $url
 mv $output_path $BACKUP_DIR/
