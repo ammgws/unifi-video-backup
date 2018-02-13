@@ -1,0 +1,8 @@
+[Unit]
+After=unifi-video.service
+
+[Service]
+ExecStart=/usr/bin/fish /usr/local/bin/watch-recordings-dir.fish
+
+[Install]
+WantedBy=default.target
