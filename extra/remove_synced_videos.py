@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
 import pythoncom
+import sys
 import win32api
 import win32con
 from comtypes.hresult import S_OK
 from pathlib import Path
+from pywintypes import com_error
 from win32com.shell import shell
 
 """ Finds all synced videos and delete the local copy.
@@ -38,10 +40,16 @@ except win32api.error as e:
 finally:
     win32api.RegCloseKey(reg_key)
 
-ovh = pythoncom.CoCreateInstance(overlay_handler_ID,
-                                 None,
-                                 pythoncom.CLSCTX_INPROC_SERVER,
-                                 shell.IID_IShellIconOverlayIdentifier)
+try:
+    ovh = pythoncom.CoCreateInstance(overlay_handler_ID,
+                                     None,
+                                     pythoncom.CLSCTX_INPROC_SERVER,
+                                     shell.IID_IShellIconOverlayIdentifier)
+except com_error as e:
+    if e.strerror == "Class not registered":
+        sys.exit("Backup and Sync has not registered its handler for some reason."
+    else:
+        sys.exit(f"Error: {e.strerror}")
 
 p = Path(monitor_dir)
 for file in p.glob('*.mp4'):
